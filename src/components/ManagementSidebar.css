@@ -1,0 +1,124 @@
+/* ================================
+   Sidebar Base
+================================ */
+.management-sidebar {
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+}
+
+/* ================================
+   Header
+================================ */
+.sidebar-header {
+    padding: 24px;
+    text-align: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.sidebar-logo {
+    color: inherit !important;
+    margin: 0 !important;
+    font-family: 'Playfair Display', serif;
+}
+
+/* Role badge */
+.role-badge {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    margin-top: 8px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+/* ================================
+   Admin Theme (Light Purple)
+================================ */
+.theme-admin {
+    background: #ffffff !important;
+    color: #1a1528;
+}
+
+.theme-admin .sidebar-logo {
+    color: #6b46c1 !important;
+}
+
+.theme-admin .role-badge {
+    background: #6b46c1;
+    color: #ffffff;
+}
+
+.theme-admin .ant-menu {
+    background: transparent !important;
+    color: #1a1528 !important;
+}
+
+.theme-admin .ant-menu-item-selected {
+    background: #f3e8ff !important;
+    color: #6b46c1 !important;
+}
+
+/* ================================
+   Agent Theme (Light Blue)
+================================ */
+.theme-agent {
+    background: #f8fafc !important;
+    color: #0f172a;
+}
+
+.theme-agent .sidebar-logo {
+    color: #0284c7 !important;
+}
+
+.theme-agent .role-badge {
+    background: #0284c7;
+    color: #ffffff;
+}
+
+.theme-agent .ant-menu {
+    background: transparent !important;
+    color: #0f172a !important;
+}
+
+.theme-agent .ant-menu-item-selected {
+    background: #e0f2fe !important;
+    color: #0284c7 !important;
+}
+
+/* ================================
+   Menu Styling
+================================ */
+.sidebar-menu {
+    flex: 1;
+    border-inline-end: none !important;
+    padding: 16px 0;
+}
+
+.ant-menu-item {
+    margin: 4px 16px !important;
+    width: calc(100% - 32px) !important;
+    border-radius: 8px !important;
+    font-weight: 500;
+}
+
+/* Hover state */
+.ant-menu-item:hover {
+    background: #f1f5f9 !important;
+    color: inherit !important;
+}
+
+/* ================================
+   Footer
+================================ */
+.sidebar-footer {
+    padding: 16px 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+}

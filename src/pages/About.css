@@ -1,0 +1,124 @@
+.about-page {
+    min-height: 100vh;
+    background: var(--bg-antique);
+}
+
+.about-hero {
+    height: 60vh;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1610030469668-935142b36de3?q=80&w=2574&auto=format&fit=crop');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+}
+
+.about-hero-content .cursive-flourish {
+    font-size: 3rem;
+    color: var(--primary-gold);
+}
+
+.about-title {
+    color: white !important;
+    font-family: var(--font-decorative);
+    font-size: 4rem !important;
+    margin-top: 10px !important;
+}
+
+.about-content {
+    padding: 80px 20px;
+}
+
+.about-image-frame {
+    position: relative;
+    padding: 20px;
+}
+
+.about-image {
+    width: 100%;
+    border-radius: 4px;
+    position: relative;
+    z-index: 2;
+    box-shadow: var(--shadow-premium);
+}
+
+.frame-border {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 2px solid var(--primary-gold);
+    transform: translate(15px, 15px);
+    z-index: 1;
+}
+
+.about-text-content {
+    padding-left: 20px;
+}
+
+.section-title {
+    font-family: var(--font-decorative);
+    color: var(--royal-maroon) !important;
+    margin-bottom: 30px !important;
+}
+
+.about-para {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--text-light);
+    margin-bottom: 20px !important;
+}
+
+.mt-4 {
+    margin-top: 20px !important;
+}
+
+.mt-80 {
+    margin-top: 80px;
+}
+
+.mb-60 {
+    margin-bottom: 60px !important;
+}
+
+.value-card {
+    background: white;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: var(--shadow-premium);
+    transition: transform 0.3s ease;
+    height: 100%;
+}
+
+.value-card:hover {
+    transform: translateY(-10px);
+}
+
+.value-icon {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+    .about-hero {
+        height: 50vh;
+    }
+
+    .about-title {
+        font-size: 2.5rem !important;
+    }
+
+    .about-text-content {
+        padding-left: 0;
+        margin-top: 40px;
+        text-align: center;
+    }
+
+    .frame-border {
+        transform: translate(10px, 10px);
+    }
+}

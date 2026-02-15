@@ -1,0 +1,86 @@
+.my-orders-page {
+    background: var(--bg-antique);
+    min-height: 100vh;
+}
+
+.orders-hero {
+    background: var(--royal-maroon);
+    padding: 60px 0;
+    text-align: center;
+    color: white;
+}
+
+.orders-hero h1 {
+    color: white !important;
+    margin-bottom: 8px;
+}
+
+.orders-content {
+    padding: 60px 0;
+}
+
+.order-card-refined {
+    background: white;
+    box-shadow: var(--shadow-premium);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.order-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.order-meta {
+    display: flex;
+    gap: 40px;
+}
+
+.meta-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.meta-item .ant-typography-secondary {
+    font-size: 10px;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+}
+
+.order-total-price {
+    color: var(--primary-gold);
+    font-size: 16px;
+}
+
+.order-status-tag {
+    border-radius: 0;
+    padding: 4px 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.mini-item-img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.minimal-item-row {
+    padding: 12px 0;
+}
+
+.orders-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+}
+
+.empty-orders-card {
+    text-align: center;
+    padding: 80px 40px;
+}

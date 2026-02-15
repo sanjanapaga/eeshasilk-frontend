@@ -1,0 +1,125 @@
+.register-page {
+    min-height: calc(100vh - 70px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--gradient-hero);
+    padding: 40px 24px;
+    position: relative;
+    overflow: hidden;
+}
+
+.register-page::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+    background-size: 30px 30px;
+    animation: float 20s ease-in-out infinite;
+}
+
+.register-container {
+    width: 100%;
+    max-width: 520px;
+    position: relative;
+    z-index: 2;
+}
+
+.register-card {
+    border-radius: 24px !important;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3) !important;
+    padding: 24px !important;
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(20px);
+}
+
+.register-header {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.register-header h2 {
+    font-size: 32px !important;
+    font-family: 'Playfair Display', serif;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px !important;
+}
+
+.register-subtitle {
+    color: var(--text-light) !important;
+    font-size: 15px;
+    margin: 0 !important;
+}
+
+.register-form .ant-form-item-label>label {
+    font-weight: 500;
+    font-size: 15px;
+}
+
+.register-form .ant-input-affix-wrapper,
+.register-form .ant-input-password {
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.register-form .ant-input-affix-wrapper:focus,
+.register-form .ant-input-affix-wrapper-focused,
+.register-form .ant-input-password:focus {
+    border-color: var(--primary-gold);
+    box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
+}
+
+.register-button {
+    background: var(--gradient-primary) !important;
+    border: none !important;
+    height: 48px !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    border-radius: 8px !important;
+    margin-top: 8px;
+}
+
+.register-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4) !important;
+}
+
+.register-footer {
+    text-align: center;
+    margin-top: 24px;
+}
+
+.register-footer p {
+    color: var(--text-light);
+    margin: 0;
+}
+
+.login-link {
+    color: var(--primary-purple);
+    font-weight: 600;
+}
+
+.login-link:hover {
+    color: var(--primary-gold);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .register-page {
+        padding: 24px 16px;
+    }
+
+    .register-card {
+        padding: 20px !important;
+    }
+
+    .register-header h2 {
+        font-size: 26px !important;
+    }
+}
