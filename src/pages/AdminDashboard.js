@@ -8,6 +8,7 @@ import { addProduct, updateProduct, deleteProduct } from '../features/products/p
 import { selectAllOrders, fetchOrders } from '../features/orders/ordersSlice';
 import { fetchCategories, addCategory, updateCategory, deleteCategory } from '../features/categories/categoriesSlice';
 import OffersManagement from './OffersManagement';
+import { parseError } from '../utils';
 import AdminLayout from '../components/AdminLayout';
 import './AdminDashboard.css';
 
@@ -129,7 +130,7 @@ const AdminDashboard = () => {
             await dispatch(deleteProduct(id)).unwrap();
             message.success('Product deleted successfully');
         } catch (error) {
-            message.error(error || 'Failed to delete product');
+            message.error(parseError(error));
         }
     };
 
@@ -194,7 +195,8 @@ const AdminDashboard = () => {
             setAdditionalImages([]);
             setVideoFileList([]);
         } catch (error) {
-            message.error(error || 'Failed to save product');
+            console.error('product add/update failed', error.response?.data || error);
+            message.error(parseError(error));
         }
     };
 
@@ -216,7 +218,7 @@ const AdminDashboard = () => {
             await dispatch(deleteCategory(id)).unwrap();
             message.success('Category deleted successfully');
         } catch (error) {
-            message.error(error || 'Failed to delete category');
+            message.error(parseError(error));
         }
     };
 
@@ -233,7 +235,7 @@ const AdminDashboard = () => {
             setIsCategoryModalOpen(false);
             categoryForm.resetFields();
         } catch (error) {
-            message.error(error || 'Failed to save category');
+            message.error(parseError(error));
         }
     };
 
@@ -369,8 +371,8 @@ const AdminDashboard = () => {
             dataIndex: 'stock_quantity',
             key: 'stock',
             render: (stock) => (
-                <Tag color={stock == 0 ? 'red' : stock < 5 ? 'orange' : 'green'}>
-                    {stock == 0 ? 'Out of Stock' : `${stock} Units`}
+                <Tag color={stock === 0 ? 'red' : stock < 5 ? 'orange' : 'green'}>
+                    {stock === 0 ? 'Out of Stock' : `${stock} Units`}
                 </Tag>
             ),
         },
