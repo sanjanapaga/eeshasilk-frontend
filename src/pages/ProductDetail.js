@@ -1,6 +1,8 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Layout, Row, Col, Button, Typography, Tag, Rate, Form, Input, Card, Avatar, message, Divider, Empty } from 'antd';
+import { parseError } from '../utils';
 import { ShoppingCartOutlined, HeartOutlined, HeartFilled, UserOutlined, ArrowLeftOutlined, SafetyCertificateFilled, PlayCircleOutlined } from '@ant-design/icons';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectAllProducts, fetchProducts, fetchProductById } from '../features/products/productsSlice';
@@ -136,7 +138,7 @@ const ProductDetail = () => {
             form.resetFields();
             setUserRating(0);
         } catch (error) {
-            message.error(error || 'Failed to submit review');
+            message.error(parseError(error));
         }
     };
 

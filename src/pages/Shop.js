@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import { Layout, Row, Col, Button, Typography, Empty, Spin } from 'antd';
 import { useSearchParams } from 'react-router-dom';
