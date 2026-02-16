@@ -1,8 +1,15 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'http://127.0.0.1:8080/api',
+    // Usage of REACT_APP_API_URL for production (Vercel) environment
+    baseURL: process.env.REACT_APP_API_URL || 'http://localhost:8080/api',
 });
+
+console.log('------------------------------------------------');
+console.log('🚀 App Environment:', process.env.NODE_ENV);
+console.log('🔗 API URL Conf:', process.env.REACT_APP_API_URL);
+console.log('📡 Axios BaseURL:', api.defaults.baseURL);
+console.log('------------------------------------------------');
 
 // Add a request interceptor to include the token if it exists (for protected routes)
 api.interceptors.request.use((config) => {
