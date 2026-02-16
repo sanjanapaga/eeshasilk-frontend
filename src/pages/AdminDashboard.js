@@ -295,10 +295,10 @@ const AdminDashboard = () => {
 
     const columns = [
         {
-            title: 'Image',
-            dataIndex: 'image_url',
-            key: 'image',
-            render: (text) => <img src={text || 'https://via.placeholder.com/50'} alt="product" style={{ width: 50, height: 50, objectFit: 'cover', borderRadius: 4 }} />,
+            title: 'ID',
+            dataIndex: 'id',
+            key: 'id',
+            render: (id) => <span style={{ color: '#999', fontSize: '12px' }}>#{id}</span>
         },
         {
             title: 'Product Name',
@@ -337,6 +337,32 @@ const AdminDashboard = () => {
             dataIndex: 'discount',
             key: 'discount',
             render: (discount) => discount ? <Tag color="red">{discount}% OFF</Tag> : '-',
+        },
+        {
+            title: 'Images',
+            key: 'all_images',
+            render: (_, record) => (
+                <div style={{ display: 'flex', gap: '4px' }}>
+                    <img
+                        src={record.image_url || 'https://via.placeholder.com/40'}
+                        alt="main"
+                        style={{ width: 40, height: 40, objectFit: 'cover', borderRadius: 4, border: '2px solid #6B46C1' }}
+                    />
+                    {record.images?.slice(0, 4).map(img => (
+                        <img
+                            key={img.id}
+                            src={img.url}
+                            alt="sub"
+                            style={{ width: 40, height: 40, objectFit: 'cover', borderRadius: 4, border: '1px solid #ddd' }}
+                        />
+                    ))}
+                    {record.images?.length > 4 && (
+                        <div style={{ width: 40, height: 40, background: '#eee', borderRadius: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', color: '#666' }}>
+                            +{record.images.length - 4}
+                        </div>
+                    )}
+                </div>
+            )
         },
         {
             title: 'Stock',
@@ -523,10 +549,14 @@ const AdminDashboard = () => {
                             <Button icon={<UploadOutlined />}>Select Main Image</Button>
                         </Upload>
                     </Form.Item>
-                    <Form.Item label="Additional Images">
+                    <Form.Item
+                        label="Additional Images (Up to 10)"
+                        help="Note: If your photos are large, try uploading only 3-5 at a time to stay within server limits (8MB total)."
+                    >
                         <Upload
                             listType="picture"
                             multiple
+                            maxCount={10}
                             fileList={additionalImages}
                             onChange={({ fileList }) => setAdditionalImages(fileList)}
                             beforeUpload={() => false}
