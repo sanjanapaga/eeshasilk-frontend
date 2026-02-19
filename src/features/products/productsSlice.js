@@ -43,7 +43,11 @@ export const addProduct = createAsyncThunk(
             const res = await api.post('products', formData);
             return res.data.product;
         } catch (err) {
-            return rejectWithValue(err.response?.data);
+            // log for debugging in console when thunk fails
+            console.error('addProduct API error', err.response?.data || err);
+            // unwrap will reject with whatever we pass; prefer a string or object that
+            // parseError can digest
+            return rejectWithValue(err.response?.data || err.message || 'Unknown error');
         }
     }
 );
@@ -59,7 +63,8 @@ export const updateProduct = createAsyncThunk(
             const res = await api.post(`products/${id}`, formData);
             return res.data.product;
         } catch (err) {
-            return rejectWithValue(err.response?.data);
+            console.error('updateProduct API error', err.response?.data || err);
+            return rejectWithValue(err.response?.data || err.message || 'Unknown error');
         }
     }
 );

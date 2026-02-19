@@ -1,6 +1,7 @@
 import React from 'react';
 import { Form, Input, Button, Card, Typography, message } from 'antd';
 import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
+import { parseError } from '../utils';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { registerUser } from '../features/auth/authSlice';
@@ -27,7 +28,7 @@ const Register = () => {
             message.success('Registration successful! Please login to continue.');
             navigate('/login');
         } catch (error) {
-            message.error(error || 'Registration failed. Please try again.');
+            message.error(parseError(error));
         } finally {
             setLoading(false);
         }

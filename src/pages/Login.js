@@ -1,6 +1,7 @@
 import React from 'react';
 import { Form, Input, Button, Card, Typography, Checkbox, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { parseError } from '../utils';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { loginUser } from '../features/auth/authSlice';
@@ -26,7 +27,7 @@ const Login = () => {
             message.success(isAdminUser ? 'Admin login successful!' : 'Login successful!');
             navigate(isAdminUser ? '/admin' : '/');
         } catch (error) {
-            message.error(error || 'Login failed. Please check your credentials.');
+            message.error(parseError(error));
         } finally {
             setLoading(false);
         }

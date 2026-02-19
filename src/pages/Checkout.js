@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { parseError } from '../utils';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Layout, Card, Form, Input, Button, Typography, message, Empty, Alert, Radio } from 'antd';
@@ -194,7 +195,7 @@ const Checkout = () => {
                 navigate('/my-orders');
             }
         } catch (error) {
-            message.error(error.response?.data?.message || 'Failed to place order');
+            message.error(parseError(error.response?.data || error));
         } finally {
             setLoading(false);
         }
