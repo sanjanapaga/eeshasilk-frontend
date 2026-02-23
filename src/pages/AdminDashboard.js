@@ -87,7 +87,13 @@ const AdminDashboard = () => {
 
     const handleEditProduct = (product) => {
         setEditingProduct(product);
-        form.setFieldsValue(product);
+
+        // Convert sizes string to array for Select multiple
+        const formValues = { ...product };
+        if (product.sizes) {
+            formValues.sizes = product.sizes.split(',').map(s => s.trim());
+        }
+        form.setFieldsValue(formValues);
         if (product.image_url) {
             setFileList([{
                 uid: '-1',
@@ -147,7 +153,11 @@ const AdminDashboard = () => {
             // Append all form values
             Object.keys(values).forEach(key => {
                 if (values[key] !== undefined && key !== 'image') {
-                    formData.append(key, values[key]);
+                    if (key === 'sizes' && Array.isArray(values[key])) {
+                        formData.append(key, values[key].join(','));
+                    } else {
+                        formData.append(key, values[key]);
+                    }
                 }
             });
 
@@ -258,7 +268,7 @@ const AdminDashboard = () => {
           </head>
           <body>
             <div class="header">
-              <div class="logo">✧ EshaSilk</div>
+              <div class="logo">EESHA SILKS</div>
               <h2>Inventory Report</h2>
               <p>Date: ${new Date().toLocaleDateString('en-IN')}</p>
             </div>
@@ -404,7 +414,12 @@ const AdminDashboard = () => {
 
     return (
         <AdminLayout>
-            <div className="dashboard-header">
+            <div className="dashboard-header" style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+                <img
+                    src="/assets/images/logo.jpg"
+                    alt="Eesha Silks"
+                    style={{ height: '60px', width: 'auto', objectFit: 'contain' }}
+                />
                 <Title level={2} style={{ margin: 0 }}>
                     {isAdmin ? 'Admin Dashboard' : 'Agent Dashboard'}
                 </Title>
@@ -518,6 +533,26 @@ const AdminDashboard = () => {
                                 <Select.Option key={cat.slug} value={cat.slug}>{cat.name}</Select.Option>
                             ))}
                         </Select>
+                    </Form.Item>
+                    <Form.Item noStyle shouldUpdate={(prevValues, currentValues) => prevValues.category !== currentValues.category}>
+                        {({ getFieldValue }) =>
+                            ['kurta', 'lehenga'].includes(getFieldValue('category')) ? (
+                                <Form.Item
+                                    name="sizes"
+                                    label="Available Sizes"
+                                    help="Select all sizes available for this Kurta"
+                                >
+                                    <Select mode="multiple" placeholder="Select sizes">
+                                        <Select.Option value="S">Small (S)</Select.Option>
+                                        <Select.Option value="M">Medium (M)</Select.Option>
+                                        <Select.Option value="L">Large (L)</Select.Option>
+                                        <Select.Option value="XL">Extra Large (XL)</Select.Option>
+                                        <Select.Option value="XXL">2X Large (XXL)</Select.Option>
+                                        <Select.Option value="XXXL">3X Large (XXXL)</Select.Option>
+                                    </Select>
+                                </Form.Item>
+                            ) : null
+                        }
                     </Form.Item>
                     <Form.Item name="price" label="Price" rules={[{ required: true }]}>
                         <InputNumber style={{ width: '100%' }} />

@@ -36,7 +36,7 @@ const Navbar = () => {
     const fallbackCategories = [
         { id: 1, name: 'Saree', slug: 'saree' },
         { id: 2, name: 'Banarasi', slug: 'banarasi' },
-        { id: 3, name: 'Kanjivaram', slug: 'kanjivaram' },
+        { id: 3, name: 'Kanchipuram', slug: 'kanchipuram' },
         { id: 4, name: 'Mysore Silk', slug: 'mysore-silk' },
         { id: 5, name: 'Lehenga', slug: 'lehenga' },
         { id: 6, name: 'Kurta', slug: 'kurta' },

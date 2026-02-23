@@ -29,7 +29,14 @@ api.interceptors.response.use(
         if (error.response && error.response.status === 401) {
             localStorage.removeItem('token');
             localStorage.removeItem('user');
-            window.location.href = '/login';
+
+            // Only redirect if it's a known protected route
+            const protectedRoutes = ['cart', 'wishlist', 'orders', 'razorpay'];
+            const isProtected = protectedRoutes.some(route => error.config.url.includes(route));
+
+            if (isProtected) {
+                window.location.href = '/login';
+            }
         }
         return Promise.reject(error);
     }

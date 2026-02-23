@@ -84,15 +84,23 @@ const ManagementSidebar = () => {
         >
             {/* Header */}
             <div className="sidebar-header">
-                <MenuOutlined className="hamburger-icon" />
-                {!collapsed && (
-                    <>
-                        <Title level={4} className="sidebar-logo">✧ EshaSilk</Title>
-                        <div className="role-badge">
-                            {isAdmin ? 'ADMIN PANEL' : 'AGENT PORTAL'}
-                        </div>
-                    </>
-                )}
+                <div className="sidebar-logo-container" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
+                    <img
+                        src="/assets/images/logo.jpg"
+                        alt="Eesha Silks"
+                        className={`sidebar-brand-logo-img ${collapsed ? 'sidebar-logo-collapsed' : ''}`}
+                    />
+                    {!collapsed && (
+                        <>
+                            <h1 className="sidebar-logo-text">EESHA SILKS</h1>
+                            <span className="sidebar-logo-subtext">HANDLOOM BOUTIQUE</span>
+                            <div className="role-badge">
+                                {isAdmin ? 'ADMIN PANEL' : 'AGENT PORTAL'}
+                            </div>
+                        </>
+                    )}
+                </div>
+                {collapsed && <MenuOutlined className="hamburger-icon" style={{ marginTop: '10px' }} />}
             </div>
 
             {/* Menu */}

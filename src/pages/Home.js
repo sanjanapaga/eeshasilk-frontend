@@ -107,7 +107,7 @@ const Home = () => {
                 <div className="container-premium">
                     <div className="boutique-header text-center mb-100 scroll-reveal">
                         <span className="cursive-flourish">Heritage Weaves</span>
-                        <Title level={2} className="boutique-title decorative-title text-white">The Banarasi vs Kanjivaram Narrative</Title>
+                        <Title level={2} className="boutique-title decorative-title text-white">The Banarasi vs Kanchipuram Narrative</Title>
                         <Paragraph className="premium-para-light max-w-700 mx-auto">
                             Two legendary traditions, one magnificent heritage. Explore the golden zari of the North
                             and the temple borders of the South.
@@ -133,19 +133,19 @@ const Home = () => {
                             </div>
                         </Col>
                         <Col xs={24} lg={12} className="scroll-reveal delay-2">
-                            <div className="story-card interact-gold" onClick={() => navigate('/shop?category=kanjivaram')}>
+                            <div className="story-card interact-gold" onClick={() => navigate('/shop?category=kanchipuram')}>
                                 <div className="story-image" style={{ backgroundImage: 'url(/assets/images/boutique/kanjivaram_hero.png)' }}></div>
                                 <div className="story-content">
                                     <Text className="weave-meta">THE TEMPLE BORDERS OF KANCHIPURAM</Text>
-                                    <Title level={3}>Royal Kanjivaram</Title>
+                                    <Title level={3}>Royal Kanchipuram</Title>
                                     <Paragraph className="story-text">
                                         Known for its heavy silk,silver and gold-dipped zari, these sarees feature
                                         the iconic 'Korvai' borders and 'Mallinagu' patterns.
                                     </Paragraph>
-                                    <Button type="primary" className="boutique-btn-outline">SHOP KANJIVARAM</Button>
+                                    <Button type="primary" className="boutique-btn-outline">SHOP KANCHIPURAM</Button>
                                 </div>
                                 <div className="story-hover-overlay">
-                                    <span className="overlay-text">EXPLORE KANJIVARAM</span>
+                                    <span className="overlay-text">EXPLORE KANCHIPURAM</span>
                                 </div>
                             </div>
                         </Col>

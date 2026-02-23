@@ -42,9 +42,6 @@ const Login = () => {
                         <Paragraph className="login-subtitle">
                             Sign in to access your EESHA SILKS account
                         </Paragraph>
-                        <Paragraph style={{ fontSize: '12px', color: '#999', marginTop: '8px' }}>
-                            Admin login: admin@eeshasilks.com
-                        </Paragraph>
                     </div>
 
                     <Form

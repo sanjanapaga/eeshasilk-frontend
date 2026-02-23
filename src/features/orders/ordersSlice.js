@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import api from '../../api/api';
+import api from '../../api';
 
 export const fetchOrders = createAsyncThunk(
     'orders/fetchOrders',
@@ -7,7 +7,7 @@ export const fetchOrders = createAsyncThunk(
         try {
             const endpoint = userId ? `orders?user_id=${userId}` : 'orders';
             const response = await api.get(endpoint);
-            return response.orders || response; // Backend returns { orders: [] } or []
+            return response.data.orders || response.data; // Backend returns { orders: [] } or []
         } catch (error) {
             return rejectWithValue(error.message);
         }
@@ -19,7 +19,7 @@ export const addOrder = createAsyncThunk(
     async (orderData, { rejectWithValue }) => {
         try {
             const response = await api.post('orders', orderData);
-            return response.order || response;
+            return response.data.order || response.data;
         } catch (error) {
             return rejectWithValue(error.message);
         }

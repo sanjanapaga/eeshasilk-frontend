@@ -51,6 +51,29 @@
     z-index: 2;
 }
 
+.product-badge-soldout {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 8px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    z-index: 10;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    pointer-events: none;
+    text-transform: uppercase;
+    width: 80%;
+    text-align: center;
+}
+
+.boutique-product-card.sold-out .product-main-image {
+    filter: grayscale(0.5) opacity(0.8);
+}
+
 /* Product Actions Overlay */
 .product-card-actions {
     position: absolute;

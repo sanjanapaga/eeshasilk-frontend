@@ -89,7 +89,14 @@ const CartDrawer = ({ open, onClose }) => {
                                 title={<Text strong>{item.name}</Text>}
                                 description={
                                     <div className="cart-item-details">
-                                        <Text type="secondary">₹{item.price.toLocaleString()}</Text>
+                                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                            <Text type="secondary">₹{item.price.toLocaleString()}</Text>
+                                            {item.size && (
+                                                <Text type="secondary" style={{ fontSize: '12px', marginTop: '2px' }}>
+                                                    Size: <Text strong size="small" style={{ color: 'var(--primary-gold)' }}>{item.size}</Text>
+                                                </Text>
+                                            )}
+                                        </div>
                                         <div className="quantity-control">
                                             <InputNumber
                                                 min={1}

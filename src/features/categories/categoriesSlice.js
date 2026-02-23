@@ -1,12 +1,12 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import api from '../../api/api';
+import api from '../../api';
 
 export const fetchCategories = createAsyncThunk(
     'categories/fetchCategories',
     async (_, { rejectWithValue }) => {
         try {
             const response = await api.get('categories');
-            return response.categories;
+            return response.data.categories;
         } catch (error) {
             return rejectWithValue(error.message);
         }
@@ -18,7 +18,7 @@ export const addCategory = createAsyncThunk(
     async (categoryData, { rejectWithValue }) => {
         try {
             const response = await api.post('categories', categoryData);
-            return response;
+            return response.data;
         } catch (error) {
             return rejectWithValue(error.response?.data?.message || error.message);
         }

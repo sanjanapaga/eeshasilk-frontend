@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Layout, Row, Col, Button, Typography, Tag, Rate, Form, Input, Card, Avatar, message, Divider, Empty } from 'antd';
+import { Layout, Row, Col, Button, Typography, Tag, Rate, Form, Input, Card, Avatar, message, Divider, Empty, Space } from 'antd';
 import { parseError } from '../utils';
 import { ShoppingCartOutlined, HeartOutlined, HeartFilled, UserOutlined, ArrowLeftOutlined, SafetyCertificateFilled, PlayCircleOutlined } from '@ant-design/icons';
 import { useSelector, useDispatch } from 'react-redux';
@@ -16,6 +16,8 @@ const { Content } = Layout;
 const { Title, Paragraph, Text } = Typography;
 const { TextArea } = Input;
 
+const ALL_SIZES = ['S', 'M', 'L', 'XL', 'XXL', 'XXXL'];
+
 const ProductDetail = () => {
     const { id } = useParams();
     const navigate = useNavigate();
@@ -24,6 +26,7 @@ const ProductDetail = () => {
     const [userRating, setUserRating] = useState(0);
     const [mainImage, setMainImage] = useState(null);
     const [currentVideo, setCurrentVideo] = useState(null);
+    const [selectedSize, setSelectedSize] = useState(null);
 
     const { list: products, loading } = useSelector((state) => state.products);
     const product = products.find(p => parseInt(p.id) === parseInt(id));
@@ -84,9 +87,13 @@ const ProductDetail = () => {
 
     const handleAddToCart = async () => {
         if (!isAuthenticated) return navigate('/login');
+        if (['kurta', 'lehenga'].includes(product.category) && !selectedSize) {
+            message.warning('Please select a size before adding to cart');
+            return;
+        }
         try {
-            await dispatch(addToCartApi(product)).unwrap();
-            message.success(`${product.name} added to cart!`);
+            await dispatch(addToCartApi({ product, size: selectedSize })).unwrap();
+            message.success(`${product.name}${selectedSize ? ` (${selectedSize})` : ''} added to cart!`);
         } catch (error) {
             message.error('Failed to add to cart');
         }
@@ -110,8 +117,12 @@ const ProductDetail = () => {
 
     const handleBuyNow = async () => {
         if (!isAuthenticated) return navigate('/login');
+        if (['kurta', 'lehenga'].includes(product.category) && !selectedSize) {
+            message.warning('Please select a size first');
+            return;
+        }
         try {
-            await dispatch(addToCartApi(product)).unwrap();
+            await dispatch(addToCartApi({ product, size: selectedSize })).unwrap();
             navigate('/checkout');
         } catch (error) {
             message.error('Failed to initiate checkout');
@@ -260,9 +271,9 @@ const ProductDetail = () => {
 
                                         {/* Stock Status */}
                                         <div className="stock-status">
-                                            {product.stock_quantity === 0 ? (
+                                            {Number(product.stock_quantity) === 0 ? (
                                                 <Tag color="default" className="stock-tag">OUT OF STOCK</Tag>
-                                            ) : product.stock_quantity < 5 ? (
+                                            ) : Number(product.stock_quantity) < 5 ? (
                                                 <Tag color="warning" className="stock-tag">LOW STOCK: Only {product.stock_quantity} Left</Tag>
                                             ) : (
                                                 <Tag color="success" className="stock-tag">IN STOCK</Tag>
@@ -275,13 +286,44 @@ const ProductDetail = () => {
                                     {product.description}
                                 </Paragraph>
 
-                                <div className="silk-mark-assurance card-gold-border mb-30">
-                                    <SafetyCertificateFilled className="silk-icon" />
-                                    <div className="silk-text">
-                                        <Text strong>SILK MARK CERTIFIED</Text>
-                                        <Paragraph className="mb-0">Your assurance of 100% pure natural silk. Authenticity verified by Central Silk Board.</Paragraph>
+                                {['kurta', 'lehenga'].includes(product.category?.toLowerCase()) && (
+                                    <div className="product-size-selection" style={{ marginBottom: '30px' }}>
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                                            <Text strong style={{ letterSpacing: '1px', fontSize: '12px', color: '#888' }}>SELECT SIZE</Text>
+                                            <Button type="link" size="small" style={{ color: 'var(--primary-gold)', padding: 0 }}>Size Guide</Button>
+                                        </div>
+                                        <div className="size-options-grid">
+                                            {ALL_SIZES.map(s => {
+                                                const availableSizes = product.sizes ? product.sizes.split(',').map(sz => sz.trim()) : [];
+                                                const isAvailable = availableSizes.includes(s);
+                                                return (
+                                                    <div
+                                                        key={s}
+                                                        className={`size-option-item ${selectedSize === s ? 'active' : ''} ${!isAvailable ? 'disabled' : ''}`}
+                                                        onClick={() => isAvailable && setSelectedSize(s)}
+                                                    >
+                                                        {s}
+                                                    </div>
+                                                );
+                                            })}
+                                        </div>
+                                        {!product.sizes && (
+                                            <Text type="secondary" style={{ fontSize: '12px', marginTop: '8px', display: 'block' }}>
+                                                (No sizes defined yet. Please add them in Admin Panel)
+                                            </Text>
+                                        )}
                                     </div>
-                                </div>
+                                )}
+
+                                {(product.name?.toLowerCase().includes('silk') || product.description?.toLowerCase().includes('silk')) && (
+                                    <div className="silk-mark-assurance card-gold-border mb-30">
+                                        <SafetyCertificateFilled className="silk-icon" />
+                                        <div className="silk-text">
+                                            <Text strong>SILK MARK CERTIFIED</Text>
+                                            <Paragraph className="mb-0">Your assurance of 100% pure natural silk. Authenticity verified by Central Silk Board.</Paragraph>
+                                        </div>
+                                    </div>
+                                )}
 
                                 <div className="product-actions">
                                     <Button
@@ -289,16 +331,16 @@ const ProductDetail = () => {
                                         size="large"
                                         icon={<ShoppingCartOutlined />}
                                         onClick={handleAddToCart}
-                                        disabled={product.stock_quantity === 0}
+                                        disabled={Number(product.stock_quantity) === 0}
                                         className="add-to-cart-main boutique-btn-gold"
                                     >
-                                        {product.stock_quantity === 0 ? 'Out of Stock' : 'Add to Cart'}
+                                        {Number(product.stock_quantity) === 0 ? 'Out of Stock' : 'Add to Cart'}
                                     </Button>
                                     <Button
                                         type="primary"
                                         size="large"
                                         onClick={handleBuyNow}
-                                        disabled={product.stock_quantity === 0}
+                                        disabled={Number(product.stock_quantity) === 0}
                                         className="buy-now-main boutique-btn-maroon"
                                     >
                                         Buy Now

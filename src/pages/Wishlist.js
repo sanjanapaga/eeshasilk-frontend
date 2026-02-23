@@ -17,12 +17,15 @@ const Wishlist = () => {
     const dispatch = useDispatch();
     const wishlistIds = useSelector(selectWishlistItems);
     const allProducts = useSelector(selectAllProducts);
+    const { isAuthenticated } = useSelector((state) => state.auth);
 
     React.useEffect(() => {
         dispatch(fetchProducts());
-        dispatch(fetchWishlist());
-        dispatch(fetchCart());
-    }, [dispatch]);
+        if (isAuthenticated) {
+            dispatch(fetchWishlist());
+            dispatch(fetchCart());
+        }
+    }, [dispatch, isAuthenticated]);
 
     const wishlistProducts = allProducts.filter(product =>
         wishlistIds.some(item => parseInt(item.product_id) === parseInt(product.id))

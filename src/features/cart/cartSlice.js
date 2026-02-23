@@ -15,9 +15,9 @@ export const fetchCart = createAsyncThunk(
 
 export const addToCartApi = createAsyncThunk(
     'cart/add',
-    async (product, { dispatch, rejectWithValue }) => {
+    async ({ product, size }, { dispatch, rejectWithValue }) => {
         try {
-            await api.post('cart', { product_id: product.id, quantity: 1 });
+            await api.post('cart', { product_id: product.id, quantity: 1, size });
             dispatch(fetchCart());
             return product;
         } catch (err) {

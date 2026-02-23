@@ -104,7 +104,10 @@ const MyOrders = () => {
                                                 </Col>
                                                 <Col span={14}>
                                                     <Text strong block>{item.product_name}</Text>
-                                                    <Text type="secondary">Qty: {item.quantity}</Text>
+                                                    <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                                                        <Text type="secondary">Qty: {item.quantity}</Text>
+                                                        {item.size && <Tag size="small" color="purple">{item.size}</Tag>}
+                                                    </div>
                                                 </Col>
                                                 <Col span={6} style={{ textAlign: 'right' }}>
                                                     <Text strong>₹{(item.price * item.quantity).toLocaleString()}</Text>

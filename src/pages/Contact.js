@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Row, Col, Typography, Form, Input, Button, message, Card, Select } from 'antd';
 import { MailOutlined, PhoneOutlined, EnvironmentOutlined, SendOutlined } from '@ant-design/icons';
+import api from '../api';
 import './Contact.css';
 
 const { Title, Paragraph, Text } = Typography;
@@ -18,29 +19,18 @@ const Contact = () => {
         message.loading({ content: 'Sending message...', key: 'contact' });
 
         try {
-            // Using the configured axios instance from api/index.js if available, or fetch
-            // Assuming we have the api instance imported as 'api' (need to import it)
-            // If not, using fetch for now to be safe, or I can import api.
+            const response = await api.post('messages', values);
 
-            const response = await fetch('http://localhost:8080/api/messages', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(values),
-            });
-
-            const data = await response.json();
-
-            if (response.ok) {
+            if (response.status === 200 || response.status === 201) {
                 message.success({ content: 'Message sent successfully! We will get back to you soon.', key: 'contact', duration: 4 });
                 form.resetFields();
             } else {
-                throw new Error(data.message || 'Failed to send');
+                throw new Error(response.data?.message || 'Failed to send');
             }
         } catch (error) {
             console.error('Contact error:', error);
-            message.error({ content: 'Failed to send message. Please try again.', key: 'contact' });
+            const errorMsg = error.response?.data?.message || error.message || 'Failed to send message. Please try again.';
+            message.error({ content: errorMsg, key: 'contact' });
         }
     };
 

@@ -3,6 +3,7 @@ import { Layout } from 'antd';
 import Navbar from './Navbar';
 import AnnouncementBar from './AnnouncementBar';
 import Footer from './Footer';
+import ScrollToTop from './ScrollToTop';
 
 const { Content } = Layout;
 
@@ -14,6 +15,7 @@ const UserLayout = ({ children }) => {
             <Content>
                 {children}
             </Content>
+            <ScrollToTop />
             <Footer />
         </Layout>
     );

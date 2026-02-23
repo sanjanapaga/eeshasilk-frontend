@@ -100,6 +100,9 @@ const OrderDetail = () => {
                                                 <Text strong>{record.product_name || record.name}</Text>
                                                 <br />
                                                 <Text type="secondary">Qty: {record.quantity}</Text>
+                                                {record.size && (
+                                                    <Tag color="purple" style={{ marginLeft: '8px', fontSize: '10px' }}>{record.size}</Tag>
+                                                )}
                                             </div>
                                         </div>
                                     ),

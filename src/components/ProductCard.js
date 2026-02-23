@@ -49,7 +49,7 @@ const ProductCard = ({ product }) => {
     };
 
     return (
-        <div className="boutique-product-card" onClick={() => navigate(`/product/${product.id}`)}>
+        <div className={`boutique-product-card ${Number(product.stock_quantity) === 0 ? 'sold-out' : ''}`} onClick={() => navigate(`/product/${product.id}`)}>
             <div className="product-image-wrapper">
                 <img
                     alt={product.name}
@@ -71,16 +71,21 @@ const ProductCard = ({ product }) => {
                         icon={<ShoppingCartOutlined />}
                         className="action-btn cart-btn"
                         onClick={handleAddToCart}
-                        disabled={product.stock_quantity === 0}
+                        disabled={Number(product.stock_quantity) === 0}
                     />
                 </div>
 
                 {product.discount > 0 && (
                     <div className="product-badge-discount">{product.discount}% OFF</div>
                 )}
-                <div className="product-badge-silkmark">
-                    <SafetyCertificateFilled /> SILK MARK
-                </div>
+                {(product.name?.toLowerCase().includes('silk') || product.description?.toLowerCase().includes('silk')) && (
+                    <div className="product-badge-silkmark">
+                        <SafetyCertificateFilled /> SILK MARK
+                    </div>
+                )}
+                {Number(product.stock_quantity) === 0 && (
+                    <div className="product-badge-soldout">SOLD OUT</div>
+                )}
             </div>
 
             <div className="product-info">

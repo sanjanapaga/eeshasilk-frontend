@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { parseError } from '../utils';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { Layout, Card, Form, Input, Button, Typography, message, Empty, Alert, Radio } from 'antd';
+import { Layout, Card, Form, Input, Button, Typography, message, Empty, Alert, Radio, Tag } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { addOrder } from '../features/orders/ordersSlice';
 import { fetchOffers } from '../features/offers/offersSlice';
@@ -134,7 +134,8 @@ const Checkout = () => {
                                 items: items.map(item => ({
                                     id: item.id,
                                     quantity: item.quantity,
-                                    price: item.price
+                                    price: item.price,
+                                    size: item.size
                                 })),
                                 subtotal: totalAmount,
                                 delivery_fee: deliveryFee,
@@ -178,7 +179,8 @@ const Checkout = () => {
                     items: items.map(item => ({
                         id: item.id,
                         quantity: item.quantity,
-                        price: item.price
+                        price: item.price,
+                        size: item.size
                     })),
                     subtotal: totalAmount,
                     delivery_fee: deliveryFee,
@@ -352,7 +354,10 @@ const Checkout = () => {
                                         <div key={item.id} className="summary-item">
                                             <div className="summary-item-info">
                                                 <Text strong>{item.name}</Text>
-                                                <Text type="secondary">x {item.quantity}</Text>
+                                                <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                                                    <Text type="secondary">x {item.quantity}</Text>
+                                                    {item.size && <Tag size="small" color="purple">{item.size}</Tag>}
+                                                </div>
                                             </div>
                                             <Text strong>₹{(item.price * item.quantity).toLocaleString()}</Text>
                                         </div>

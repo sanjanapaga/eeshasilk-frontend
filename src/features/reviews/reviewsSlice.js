@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import api from '../../api/api';
+import api from '../../api';
 
 export const fetchReviews = createAsyncThunk(
     'reviews/fetchReviews',
@@ -7,7 +7,7 @@ export const fetchReviews = createAsyncThunk(
         try {
             const endpoint = productId ? `reviews?product_id=${productId}` : 'reviews';
             const response = await api.get(endpoint);
-            return response.reviews;
+            return response.data.reviews;
         } catch (error) {
             return rejectWithValue(error.message);
         }
@@ -25,7 +25,7 @@ export const addReview = createAsyncThunk(
                 comment: reviewData.comment,
                 user_id: reviewData.userId,
             });
-            return response.review;
+            return response.data.review;
         } catch (error) {
             return rejectWithValue(error.message);
         }

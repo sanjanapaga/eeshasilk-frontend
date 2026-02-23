@@ -34,9 +34,23 @@ function App() {
       <Route path="/shop" element={<UserLayout><Shop /></UserLayout>} />
       <Route path="/about" element={<UserLayout><About /></UserLayout>} />
       <Route path="/contact" element={<UserLayout><Contact /></UserLayout>} />
-      <Route path="/wishlist" element={<UserLayout><Wishlist /></UserLayout>} />
+      <Route
+        path="/wishlist"
+        element={
+          <ProtectedRoute>
+            <UserLayout><Wishlist /></UserLayout>
+          </ProtectedRoute>
+        }
+      />
       <Route path="/product/:id" element={<UserLayout><ProductDetail /></UserLayout>} />
-      <Route path="/checkout" element={<UserLayout><Checkout /></UserLayout>} />
+      <Route
+        path="/checkout"
+        element={
+          <ProtectedRoute>
+            <UserLayout><Checkout /></UserLayout>
+          </ProtectedRoute>
+        }
+      />
       <Route path="/login" element={<UserLayout><Login /></UserLayout>} />
       <Route path="/register" element={<UserLayout><Register /></UserLayout>} />
       <Route
