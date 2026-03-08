@@ -237,7 +237,7 @@ const ProductDetail = () => {
                         <Col xs={24} md={12}>
                             <div className="product-details">
                                 <Tag color={getCategoryColor(product.category)} className="category-tag">
-                                    {product.category.toUpperCase()}
+                                    {(product.category || '').toUpperCase()}
                                 </Tag>
                                 <Title level={1} className="product-title">{product.name}</Title>
 

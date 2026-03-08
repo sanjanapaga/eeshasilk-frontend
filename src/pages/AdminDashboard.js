@@ -321,7 +321,7 @@ const AdminDashboard = () => {
             title: 'Category',
             dataIndex: 'category',
             key: 'category',
-            render: (text) => <Tag color="purple">{text.toUpperCase()}</Tag>,
+            render: (text) => <Tag color="purple">{(text || '').toUpperCase()}</Tag>,
         },
         {
             title: 'Price',
@@ -486,6 +486,7 @@ const AdminDashboard = () => {
                                                 title: 'Name',
                                                 dataIndex: 'name',
                                                 key: 'name',
+                                                render: (name) => name.toUpperCase(),
                                             },
                                             {
                                                 title: 'Slug',

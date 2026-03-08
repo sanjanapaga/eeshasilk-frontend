@@ -89,7 +89,7 @@ const ProductCard = ({ product }) => {
             </div>
 
             <div className="product-info">
-                <div className="product-category-label">{product.category?.toUpperCase()}</div>
+                <div className="product-category-label">{(product.category || '').toUpperCase()}</div>
                 <h3 className="product-name-heading">{product.name}</h3>
 
                 <div className="product-price-section">

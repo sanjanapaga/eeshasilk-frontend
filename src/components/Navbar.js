@@ -50,7 +50,7 @@ const Navbar = () => {
     // Build menu items array
     const categoryMenuItems = displayCategories.map(cat => ({
         key: cat.slug || cat.id.toString(),
-        label: cat.name,
+        label: cat.name.toUpperCase(),
         onClick: () => {
             console.log(`🛒 Navbar: Clicked "${cat.name}" (slug: ${cat.slug})`);
             navigate(`/shop?category=${cat.slug}`);
