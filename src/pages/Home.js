@@ -134,7 +134,7 @@ const Home = () => {
                         </Col>
                         <Col xs={24} lg={12} className="scroll-reveal delay-2">
                             <div className="story-card interact-gold" onClick={() => navigate('/shop?category=kanchipuram')}>
-                                <div className="story-image" style={{ backgroundImage: 'url(/assets/images/boutique/kanjivaram_hero.png)' }}></div>
+                                <div className="story-image" style={{ backgroundImage: 'url(/assets/images/boutique/kanchipuram_hero.png)' }}></div>
                                 <div className="story-content">
                                     <Text className="weave-meta">THE TEMPLE BORDERS OF KANCHIPURAM</Text>
                                     <Title level={3}>Royal Kanchipuram</Title>
