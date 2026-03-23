@@ -25,10 +25,14 @@ import './App.css';
 
 import UserLayout from './components/UserLayout';
 import AdminLayout from './components/AdminLayout';
+import ScrollReset from './components/ScrollReset';
 
 function App() {
   return (
-    <Routes>
+    <>
+      <ScrollReset />
+      <Routes>
+
       {/* Storefront Routes */}
       <Route path="/" element={<UserLayout><Home /></UserLayout>} />
       <Route path="/shop" element={<UserLayout><Shop /></UserLayout>} />
@@ -90,7 +94,9 @@ function App() {
 
       <Route path="*" element={<UserLayout><NotFound /></UserLayout>} />
     </Routes>
+    </>
   );
 }
+
 
 export default App;

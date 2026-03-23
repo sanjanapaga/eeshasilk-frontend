@@ -26,7 +26,7 @@ const ProductCard = ({ product }) => {
     const handleAddToCart = (e) => {
         e.stopPropagation();
         if (!isAuthenticated) return navigate('/login');
-        dispatch(addToCartApi(product));
+        dispatch(addToCartApi({ product, size: null }));
         message.success(`${product.name} added to cart!`);
     };
 

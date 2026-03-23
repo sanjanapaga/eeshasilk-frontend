@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../../api';
+import { logout } from '../auth/authSlice';
 
 export const fetchCart = createAsyncThunk(
     'cart/fetch',
@@ -110,6 +111,13 @@ const cartSlice = createSlice({
             })
             .addCase(fetchCart.rejected, (state) => {
                 state.loading = false;
+            })
+            .addCase(logout, (state) => {
+                state.items = [];
+                state.totalAmount = 0;
+                state.deliveryFee = 0;
+                state.grandTotal = 0;
+                state.itemCount = 0;
             });
     }
 });

@@ -39,6 +39,12 @@ const Register = () => {
             <div className="register-container">
                 <Card className="register-card glass">
                     <div className="register-header fade-in">
+                        <img 
+                            src="/logo.png" 
+                            alt="Eesha Silks" 
+                            style={{ height: '80px', marginBottom: '20px', cursor: 'pointer' }} 
+                            onClick={() => navigate('/')}
+                        />
                         <Title level={2}>Join EESHA SILKS</Title>
                         <Paragraph className="register-subtitle">
                             Create your account to start shopping

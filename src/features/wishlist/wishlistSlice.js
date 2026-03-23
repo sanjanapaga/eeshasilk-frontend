@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../../api';
+import { logout } from '../auth/authSlice';
 
 export const fetchWishlist = createAsyncThunk(
     'wishlist/fetch',
@@ -63,6 +64,9 @@ const wishlistSlice = createSlice({
             })
             .addCase(fetchWishlist.rejected, (state) => {
                 state.loading = false;
+            })
+            .addCase(logout, (state) => {
+                state.items = [];
             });
     }
 });

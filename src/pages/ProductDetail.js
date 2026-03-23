@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Layout, Row, Col, Button, Typography, Tag, Rate, Form, Input, Card, Avatar, message, Divider, Empty, Space } from 'antd';
 import { parseError } from '../utils';
-import { ShoppingCartOutlined, HeartOutlined, HeartFilled, UserOutlined, ArrowLeftOutlined, SafetyCertificateFilled, PlayCircleOutlined } from '@ant-design/icons';
+import { ShoppingCartOutlined, HeartOutlined, HeartFilled, UserOutlined, ArrowLeftOutlined, SafetyCertificateFilled, PlayCircleOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectAllProducts, fetchProducts, fetchProductById } from '../features/products/productsSlice';
 import ProductCard from '../components/ProductCard';
@@ -27,6 +27,9 @@ const ProductDetail = () => {
     const [mainImage, setMainImage] = useState(null);
     const [currentVideo, setCurrentVideo] = useState(null);
     const [selectedSize, setSelectedSize] = useState(null);
+    const [zoomStyle, setZoomStyle] = useState({ display: 'none' });
+    const [lensStyle, setLensStyle] = useState({ display: 'none' });
+    const imageRef = useRef(null);
 
     const { list: products, loading } = useSelector((state) => state.products);
     const product = products.find(p => parseInt(p.id) === parseInt(id));
@@ -129,6 +132,77 @@ const ProductDetail = () => {
         }
     };
 
+    const handleShare = async () => {
+        const shareData = {
+            title: product.name,
+            text: `Check out ${product.name} at Esha Silk!`,
+            url: window.location.href,
+        };
+
+        if (navigator.share) {
+            try {
+                await navigator.share(shareData);
+            } catch (err) {
+                console.error("Error sharing:", err);
+            }
+        } else {
+            // Fallback for browsers that do not support Web Share API
+            try {
+                await navigator.clipboard.writeText(window.location.href);
+                message.success('Link copied to clipboard!');
+            } catch (err) {
+                message.error('Failed to copy link');
+            }
+        }
+    };
+
+    const handleMouseMove = (e) => {
+        if (!imageRef.current) return;
+        const img = imageRef.current;
+        const { left, top, width, height } = img.getBoundingClientRect();
+        
+        // Calculate mouse position relative to image
+        let x = e.pageX - left - window.pageXOffset;
+        let y = e.pageY - top - window.pageYOffset;
+
+        // Lens dimensions (should match CSS)
+        const lensWidth = 150;
+        const lensHeight = 150;
+
+        // Prevent lens from going outside the image
+        let posX = x - lensWidth / 2;
+        let posY = y - lensHeight / 2;
+
+        if (posX < 0) posX = 0;
+        if (posX > width - lensWidth) posX = width - lensWidth;
+        if (posY < 0) posY = 0;
+        if (posY > height - lensHeight) posY = height - lensHeight;
+
+        // Calculate zoom percentages
+        const ratioX = 500 / lensWidth; // 500 is zoom-window width
+        const ratioY = 500 / lensHeight; // 500 is zoom-window height
+
+        setLensStyle({
+            display: 'block',
+            left: `${posX}px`,
+            top: `${posY}px`,
+            width: `${lensWidth}px`,
+            height: `${lensHeight}px`
+        });
+
+        setZoomStyle({
+            display: 'block',
+            backgroundImage: `url(${mainImage})`,
+            backgroundSize: `${width * ratioX}px ${height * ratioY}px`,
+            backgroundPosition: `-${posX * ratioX}px -${posY * ratioY}px`
+        });
+    };
+
+    const handleMouseLeave = () => {
+        setLensStyle({ display: 'none' });
+        setZoomStyle({ display: 'none' });
+    };
+
     const handleSubmitReview = async (values) => {
         if (!isAuthenticated) {
             message.warning('Please login to submit a review');
@@ -183,13 +257,24 @@ const ProductDetail = () => {
                                             style={{ width: '100%', borderRadius: 12 }}
                                         />
                                     ) : (
-                                        <img
-                                            src={mainImage}
-                                            alt={product.name}
-                                            onError={(e) => {
-                                                e.target.src = 'https://via.placeholder.com/600x800?text=Product+Image';
-                                            }}
-                                        />
+                                        <div 
+                                            className="zoom-lens-container" 
+                                            onMouseMove={handleMouseMove}
+                                            onMouseLeave={handleMouseLeave}
+                                            style={{ position: 'relative', width: '100%' }}
+                                        >
+                                            <img
+                                                ref={imageRef}
+                                                src={mainImage}
+                                                alt={product.name}
+                                                className="zoomable-image"
+                                                onError={(e) => {
+                                                    e.target.src = 'https://via.placeholder.com/600x800?text=Product+Image';
+                                                }}
+                                            />
+                                            <div className="zoom-lens" style={lensStyle}></div>
+                                            <div className="zoom-window" style={zoomStyle}></div>
+                                        </div>
                                     )}
                                 </div>
                                 {((product.images && product.images.length > 0) || (product.videos && product.videos.length > 0)) && (
@@ -350,6 +435,12 @@ const ProductDetail = () => {
                                         icon={inWishlist ? <HeartFilled /> : <HeartOutlined />}
                                         onClick={handleWishlistToggle}
                                         className={`wishlist-main-btn boutique-btn-outline ${inWishlist ? 'active' : ''}`}
+                                    />
+                                    <Button
+                                        size="large"
+                                        icon={<ShareAltOutlined />}
+                                        onClick={handleShare}
+                                        className="share-main-btn boutique-btn-outline"
                                     />
                                 </div>
                             </div>

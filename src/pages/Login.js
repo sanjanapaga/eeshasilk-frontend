@@ -38,6 +38,12 @@ const Login = () => {
             <div className="login-container">
                 <Card className="login-card glass">
                     <div className="login-header fade-in">
+                        <img 
+                            src="/logo.png" 
+                            alt="Eesha Silks" 
+                            style={{ height: '80px', marginBottom: '20px', cursor: 'pointer' }} 
+                            onClick={() => navigate('/')}
+                        />
                         <Title level={2}>Welcome Back</Title>
                         <Paragraph className="login-subtitle">
                             Sign in to access your EESHA SILKS account

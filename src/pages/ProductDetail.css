@@ -23,22 +23,76 @@
 .product-image-large {
     background: white;
     border-radius: 16px;
-    overflow: hidden;
+    overflow: visible; /* Allow zoom window to be seen */
     padding: 12px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+    cursor: crosshair;
 }
 
-.product-image-large img {
+.zoomable-image {
     width: 100%;
-    /* Force fill the box width */
     max-height: 650px;
-    /* Balanced height */
     height: auto;
     object-fit: contain;
+    display: block;
+    border-radius: 12px; /* Maintain rounded corners for image */
 }
+
+.zoom-lens {
+    position: absolute;
+    border: 1px solid #d4d4d4;
+    width: 150px;
+    height: 150px;
+    background-color: rgba(255, 255, 255, 0.4);
+    cursor: crosshair;
+    pointer-events: none;
+    z-index: 10;
+    display: none;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.product-image-large:hover .zoom-lens {
+    display: block;
+}
+
+.zoom-window {
+    position: absolute;
+    top: 0;
+    left: 105%;
+    width: 500px;
+    height: 500px;
+    border: 1px solid #d4d4d4;
+    background-color: #fff;
+    background-repeat: no-repeat;
+    z-index: 100;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    display: none;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: opacity 0.2s ease-in-out;
+}
+
+
+.product-image-large:hover .zoom-window {
+    display: block;
+}
+
+@media (max-width: 992px) {
+    .zoom-window {
+        display: none !important;
+    }
+    .zoom-lens {
+        display: none !important;
+    }
+    .product-image-large {
+        cursor: zoom-in;
+    }
+}
+
 
 .product-thumbnails {
     display: flex;

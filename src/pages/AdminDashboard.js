@@ -416,7 +416,7 @@ const AdminDashboard = () => {
         <AdminLayout>
             <div className="dashboard-header" style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
                 <img
-                    src="/assets/images/logo.jpg"
+                    src="/logo.png"
                     alt="Eesha Silks"
                     style={{ height: '60px', width: 'auto', objectFit: 'contain' }}
                 />

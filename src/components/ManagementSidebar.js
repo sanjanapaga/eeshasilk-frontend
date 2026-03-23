@@ -86,7 +86,7 @@ const ManagementSidebar = () => {
             <div className="sidebar-header">
                 <div className="sidebar-logo-container" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
                     <img
-                        src="/assets/images/logo.jpg"
+                        src="/logo.png"
                         alt="Eesha Silks"
                         className={`sidebar-brand-logo-img ${collapsed ? 'sidebar-logo-collapsed' : ''}`}
                     />

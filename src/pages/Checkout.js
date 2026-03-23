@@ -114,7 +114,7 @@ const Checkout = () => {
                     currency: "INR",
                     name: "EESHA SILKS",
                     description: "Purchase of Handloom Treasures",
-                    image: "/logo192.png",
+                    image: "/logo.png",
                     order_id: rzpOrder.id,
                     handler: async function (response) {
                         // 2. Verify Payment in Backend

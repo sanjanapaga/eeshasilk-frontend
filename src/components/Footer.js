@@ -14,6 +14,7 @@ const Footer = () => {
                 <Row gutter={[32, 32]}>
                     <Col xs={24} sm={24} md={8}>
                         <div className="footer-section">
+                            <img src="/logo.png" alt="Eesha Silks" className="footer-logo-image" />
                             <Title level={3} className="footer-logo">EESHA SILKS</Title>
                             <Paragraph className="footer-description">
                                 Discover the finest collection of luxury sarees and elegant dresses.

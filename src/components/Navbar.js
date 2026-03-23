@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Layout, Menu, Button, Badge, Drawer, Dropdown, Avatar } from 'antd';
 import { ShoppingCartOutlined, UserOutlined, MenuOutlined, HeartOutlined, ShoppingOutlined, SearchOutlined } from '@ant-design/icons';
@@ -90,11 +90,44 @@ const Navbar = () => {
         ...((isAdmin || isAgent) ? [{ key: '/admin', label: 'DASHBOARD', path: '/admin' }] : []),
     ];
 
-    const [searchQuery, setSearchQuery] = React.useState('');
+    const [searchParams] = useSearchParams();
+    const currentSearch = searchParams.get('search') || '';
+
+    const [searchQuery, setSearchQuery] = React.useState(currentSearch);
+
+    // Sync state with URL change (e.g. when cleared from shop page)
+    React.useEffect(() => {
+        setSearchQuery(currentSearch);
+    }, [currentSearch]);
+
+    // Live filtering effect
+    React.useEffect(() => {
+        // Only trigger if searchQuery is different from what's already in the URL
+        if (searchQuery.trim() === currentSearch) return;
+
+        const delayDebounceFn = setTimeout(() => {
+            const newParams = new URLSearchParams(searchParams);
+            
+            if (searchQuery.trim()) {
+                newParams.set('search', searchQuery.trim());
+                navigate(`/shop?${newParams.toString()}`);
+            } else {
+                newParams.delete('search');
+                // If we also want to return to 'all' when search is cleared, we could check that
+                // but usually preserving category is better.
+                const searchStr = newParams.toString();
+                navigate(`/shop${searchStr ? '?' + searchStr : ''}`);
+            }
+        }, 500);
+
+        return () => clearTimeout(delayDebounceFn);
+    }, [searchQuery, currentSearch, navigate, location.pathname, searchParams]);
+
     const handleSearch = (value) => {
         if (value.trim()) {
-            navigate(`/shop?search=${encodeURIComponent(value.trim())}`);
-            setSearchQuery(''); // Clear after search
+            const newParams = new URLSearchParams(searchParams);
+            newParams.set('search', value.trim());
+            navigate(`/shop?${newParams.toString()}`);
         }
     };
 
@@ -118,7 +151,7 @@ const Navbar = () => {
                     <div className="navbar-logo-center" onClick={() => navigate('/')}>
                         <div className="logo-content">
                             <img
-                                src="/assets/images/logo.jpg"
+                                src="/logo.png"
                                 alt="Eesha Silks"
                                 className="brand-logo-img"
                             />
@@ -130,7 +163,7 @@ const Navbar = () => {
 
                     <div className="navbar-right">
                         <div className="navbar-actions">
-                            {!location.pathname.startsWith('/admin') && (
+                            {!location.pathname.startsWith('/admin') && isAuthenticated && (
                                 <>
                                     <Badge count={wishlistItems.length} size="small" className="wishlist-badge" onClick={() => navigate('/wishlist')}>
                                         <HeartOutlined className="navbar-icon" />
@@ -199,19 +232,56 @@ const Navbar = () => {
 
             {/* Mobile Drawer */}
             <Drawer
-                title="ESHASILK"
+                title={
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                        <img src="/logo.png" alt="Logo" style={{ height: '30px' }} />
+                        <span>ESHASILK</span>
+                    </div>
+                }
                 placement="right"
                 onClose={() => setMobileMenuOpen(false)}
                 open={mobileMenuOpen}
                 className="mobile-drawer"
+                styles={{ body: { padding: 0 } }}
             >
-                <ul className="mobile-nav-links">
-                    {navItems.map(item => (
-                        <li key={item.key} onClick={() => setMobileMenuOpen(false)}>
-                            <Link to={item.path}>{item.label}</Link>
-                        </li>
-                    ))}
-                </ul>
+                <div style={{ padding: '20px 16px', borderBottom: '1px solid #f0f0f0' }}>
+                    <Input
+                        placeholder="SEARCH PRODUCTS..."
+                        prefix={<SearchOutlined style={{ color: 'var(--primary-gold)' }} />}
+                        allowClear
+                        onPressEnter={(e) => {
+                            handleSearch(e.target.value);
+                            setMobileMenuOpen(false);
+                        }}
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="nav-search-input"
+                        style={{ width: '100%' }}
+                    />
+                </div>
+                <Menu
+                    mode="inline"
+                    className="mobile-nav-menu"
+                    style={{ borderRight: 'none', padding: '10px 0' }}
+                    items={[
+                        { key: '/', label: 'HOME', onClick: () => { navigate('/'); setMobileMenuOpen(false); } },
+                        {
+                            key: '/shop-parent',
+                            label: 'SHOP',
+                            children: [
+                                { key: '/shop-all', label: 'ALL PRODUCTS', onClick: () => { navigate('/shop?category=all'); setMobileMenuOpen(false); } },
+                                ...displayCategories.map(cat => ({
+                                    key: `/shop/cat/${cat.slug || cat.id.toString()}`,
+                                    label: cat.name.toUpperCase(),
+                                    onClick: () => { navigate(`/shop?category=${cat.slug}`); setMobileMenuOpen(false); }
+                                }))
+                            ]
+                        },
+                        { key: '/about', label: 'ABOUT US', onClick: () => { navigate('/about'); setMobileMenuOpen(false); } },
+                        { key: '/contact', label: 'CONTACT', onClick: () => { navigate('/contact'); setMobileMenuOpen(false); } },
+                        ...((isAdmin || isAgent) ? [{ key: '/admin', label: 'DASHBOARD', onClick: () => { navigate('/admin'); setMobileMenuOpen(false); } }] : []),
+                    ]}
+                />
             </Drawer>
 
             <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />

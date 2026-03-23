@@ -33,7 +33,7 @@ const Wishlist = () => {
 
     const handleAddAllToCart = () => {
         wishlistProducts.forEach(product => {
-            dispatch(addToCartApi(product));
+            dispatch(addToCartApi({ product, size: null }));
         });
         message.success('All items added to cart!');
         navigate('/checkout');
