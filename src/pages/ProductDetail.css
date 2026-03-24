@@ -23,74 +23,121 @@
 .product-image-large {
     background: white;
     border-radius: 16px;
-    overflow: visible; /* Allow zoom window to be seen */
+    overflow: hidden;
     padding: 12px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
-    cursor: crosshair;
 }
 
-.zoomable-image {
+.main-image-preview-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 12px;
+    cursor: zoom-in;
+}
+
+.main-display-image {
     width: 100%;
     max-height: 650px;
     height: auto;
     object-fit: contain;
     display: block;
-    border-radius: 12px; /* Maintain rounded corners for image */
+    transition: transform 0.3s ease;
 }
 
-.zoom-lens {
+.main-image-preview-container:hover .main-display-image {
+    transform: scale(1.02);
+}
+
+.click-to-zoom-hint {
     position: absolute;
-    border: 1px solid #d4d4d4;
-    width: 150px;
-    height: 150px;
-    background-color: rgba(255, 255, 255, 0.4);
-    cursor: crosshair;
+    bottom: 12px;
+    right: 12px;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+}
+
+.main-image-preview-container:hover .click-to-zoom-hint {
+    opacity: 1;
+}
+
+/* Modal Zoom Styles */
+.image-zoom-modal .ant-modal-content {
+    background: rgba(255, 255, 255, 0.98);
+    padding: 0;
+    overflow: hidden;
+    box-shadow: none;
+}
+
+.image-zoom-modal .ant-modal-body {
+    padding: 0;
+    height: 85vh;
+}
+
+.image-zoom-modal .ant-modal-close {
+    background: white;
+    border-radius: 50%;
+    top: 20px;
+    right: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.modal-zoom-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    cursor: zoom-in;
+    position: relative;
+}
+
+.modal-zoom-container img {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+    transition: transform 0.1s ease-out; /* Fast transition for panning */
+}
+
+.modal-zoom-container.zoomed {
+    cursor: zoom-out;
+}
+
+.modal-zoom-container.zoomed img {
+    max-width: none;
+    max-height: none;
+    width: 100%;
+    height: 100%;
+    transform: scale(2.5);
+}
+
+.modal-zoom-hint {
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--royal-maroon);
+    color: white;
+    padding: 8px 20px;
+    border-radius: 4px;
+    font-size: 13px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
     pointer-events: none;
     z-index: 10;
-    display: none;
-    transition: opacity 0.2s ease-in-out;
-}
-
-.product-image-large:hover .zoom-lens {
-    display: block;
-}
-
-.zoom-window {
-    position: absolute;
-    top: 0;
-    left: 105%;
-    width: 500px;
-    height: 500px;
-    border: 1px solid #d4d4d4;
-    background-color: #fff;
-    background-repeat: no-repeat;
-    z-index: 100;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-    display: none;
-    border-radius: 8px;
-    overflow: hidden;
-    transition: opacity 0.2s ease-in-out;
-}
-
-
-.product-image-large:hover .zoom-window {
-    display: block;
-}
-
-@media (max-width: 992px) {
-    .zoom-window {
-        display: none !important;
-    }
-    .zoom-lens {
-        display: none !important;
-    }
-    .product-image-large {
-        cursor: zoom-in;
-    }
 }
 
 

@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Layout, Menu, Button, Badge, Drawer, Dropdown, Avatar } from 'antd';
 import { ShoppingCartOutlined, UserOutlined, MenuOutlined, HeartOutlined, ShoppingOutlined, SearchOutlined } from '@ant-design/icons';
 import { logout } from '../features/auth/authSlice';
-import { selectWishlistItems } from '../features/wishlist/wishlistSlice';
+import { selectWishlistItems, clearWishlist } from '../features/wishlist/wishlistSlice';
+import { clearCart } from '../features/cart/cartSlice';
 import { fetchCategories } from '../features/categories/categoriesSlice';
 import CartDrawer from './CartDrawer';
 import { Input } from 'antd';
@@ -22,9 +23,12 @@ const Navbar = () => {
     const categories = useSelector((state) => state.categories.items);
     const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
     const [cartOpen, setCartOpen] = React.useState(false);
+    const lastNavigatedSearchRef = useRef('');
 
     const handleLogout = () => {
         dispatch(logout());
+        dispatch(clearWishlist());
+        dispatch(clearCart());
         navigate('/');
     };
 
@@ -95,39 +99,50 @@ const Navbar = () => {
 
     const [searchQuery, setSearchQuery] = React.useState(currentSearch);
 
-    // Sync state with URL change (e.g. when cleared from shop page)
-    React.useEffect(() => {
-        setSearchQuery(currentSearch);
-    }, [currentSearch]);
+    // Sync state with URL change (e.g. when cleared from shop page or back/forward)
+    useEffect(() => {
+        // Only sync if the URL search is different from our local state
+        // AND it's not the one we just navigated to (prevents race conditions while typing)
+        if (currentSearch !== searchQuery.trim() && currentSearch !== lastNavigatedSearchRef.current) {
+            setSearchQuery(currentSearch);
+        }
+    }, [currentSearch, searchQuery]);
 
     // Live filtering effect
-    React.useEffect(() => {
+    useEffect(() => {
         // Only trigger if searchQuery is different from what's already in the URL
         if (searchQuery.trim() === currentSearch) return;
 
         const delayDebounceFn = setTimeout(() => {
             const newParams = new URLSearchParams(searchParams);
+            const trimmedSearch = searchQuery.trim();
             
-            if (searchQuery.trim()) {
-                newParams.set('search', searchQuery.trim());
-                navigate(`/shop?${newParams.toString()}`);
+            if (trimmedSearch) {
+                newParams.set('search', trimmedSearch);
             } else {
                 newParams.delete('search');
-                // If we also want to return to 'all' when search is cleared, we could check that
-                // but usually preserving category is better.
-                const searchStr = newParams.toString();
-                navigate(`/shop${searchStr ? '?' + searchStr : ''}`);
             }
+
+            const searchStr = newParams.toString();
+            lastNavigatedSearchRef.current = trimmedSearch;
+            navigate(`/shop${searchStr ? '?' + searchStr : ''}`);
         }, 500);
 
         return () => clearTimeout(delayDebounceFn);
-    }, [searchQuery, currentSearch, navigate, location.pathname, searchParams]);
+    }, [searchQuery, currentSearch, navigate, searchParams]);
 
     const handleSearch = (value) => {
-        if (value.trim()) {
+        const trimmed = value.trim();
+        if (trimmed !== currentSearch) {
             const newParams = new URLSearchParams(searchParams);
-            newParams.set('search', value.trim());
-            navigate(`/shop?${newParams.toString()}`);
+            if (trimmed) {
+                newParams.set('search', trimmed);
+            } else {
+                newParams.delete('search');
+            }
+            const searchStr = newParams.toString();
+            lastNavigatedSearchRef.current = trimmed;
+            navigate(`/shop${searchStr ? '?' + searchStr : ''}`);
         }
     };
 
@@ -163,7 +178,7 @@ const Navbar = () => {
 
                     <div className="navbar-right">
                         <div className="navbar-actions">
-                            {!location.pathname.startsWith('/admin') && isAuthenticated && (
+                            {!location.pathname.startsWith('/admin') && isAuthenticated && user && (
                                 <>
                                     <Badge count={wishlistItems.length} size="small" className="wishlist-badge" onClick={() => navigate('/wishlist')}>
                                         <HeartOutlined className="navbar-icon" />

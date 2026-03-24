@@ -55,6 +55,7 @@ const authSlice = createSlice({
       state.user = null;
       state.isAuthenticated = false;
       state.isAdmin = false;
+      state.isAgent = false;
       state.error = null;
       localStorage.removeItem('token');
       localStorage.removeItem('user');

@@ -11,6 +11,8 @@ import {
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../features/auth/authSlice';
+import { clearWishlist } from '../features/wishlist/wishlistSlice';
+import { clearCart } from '../features/cart/cartSlice';
 import './ManagementSidebar.css';
 
 const { Sider } = Layout;
@@ -26,6 +28,8 @@ const ManagementSidebar = () => {
 
     const handleLogout = () => {
         dispatch(logout());
+        dispatch(clearWishlist());
+        dispatch(clearCart());
         navigate('/login');
     };
 

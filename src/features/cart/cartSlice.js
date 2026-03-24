@@ -98,6 +98,13 @@ const cartSlice = createSlice({
             state.grandTotal = total + deliveryFee;
             state.itemCount = count;
         },
+        clearCart: (state) => {
+            state.items = [];
+            state.totalAmount = 0;
+            state.deliveryFee = 0;
+            state.grandTotal = 0;
+            state.itemCount = 0;
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -122,5 +129,5 @@ const cartSlice = createSlice({
     }
 });
 
-export const { calculateTotals } = cartSlice.actions;
+export const { calculateTotals, clearCart } = cartSlice.actions;
 export default cartSlice.reducer;

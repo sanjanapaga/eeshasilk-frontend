@@ -8,8 +8,8 @@ export const fetchProducts = createAsyncThunk(
             const { category = 'all', search = '' } = typeof params === 'string' ? { category: params } : params;
 
             let queryParams = [];
-            if (category && category !== 'all') queryParams.push(`category=${category}`);
-            if (search) queryParams.push(`search=${search}`);
+            if (category && category !== 'all') queryParams.push(`category=${encodeURIComponent(category)}`);
+            if (search) queryParams.push(`search=${encodeURIComponent(search)}`);
 
             const queryString = queryParams.length > 0 ? `?${queryParams.join('&')}` : '';
             const url = `products${queryString}`;
