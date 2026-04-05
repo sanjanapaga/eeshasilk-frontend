@@ -103,6 +103,9 @@ const OrderDetail = () => {
                                                 {record.size && (
                                                     <Tag color="purple" style={{ marginLeft: '8px', fontSize: '10px' }}>{record.size}</Tag>
                                                 )}
+                                                {record.color && (
+                                                    <Tag color="orange" style={{ marginLeft: '8px', fontSize: '10px' }}>{record.color}</Tag>
+                                                )}
                                             </div>
                                         </div>
                                     ),

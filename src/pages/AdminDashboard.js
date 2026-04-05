@@ -93,6 +93,9 @@ const AdminDashboard = () => {
         if (product.sizes) {
             formValues.sizes = product.sizes.split(',').map(s => s.trim());
         }
+        if (product.colors) {
+            formValues.colors = product.colors.split(',').map(c => c.trim());
+        }
         form.setFieldsValue(formValues);
         if (product.image_url) {
             setFileList([{
@@ -154,6 +157,8 @@ const AdminDashboard = () => {
             Object.keys(values).forEach(key => {
                 if (values[key] !== undefined && key !== 'image') {
                     if (key === 'sizes' && Array.isArray(values[key])) {
+                        formData.append(key, values[key].join(','));
+                    } else if (key === 'colors' && Array.isArray(values[key])) {
                         formData.append(key, values[key].join(','));
                     } else {
                         formData.append(key, values[key]);
@@ -554,6 +559,13 @@ const AdminDashboard = () => {
                                 </Form.Item>
                             ) : null
                         }
+                    </Form.Item>
+                    <Form.Item
+                        name="colors"
+                        label="Available Colors"
+                        help="Type a color and press enter to add"
+                    >
+                        <Select mode="tags" placeholder="Enter colors (e.g. Red, Blue, Gold)" tokenSeparators={[',']} />
                     </Form.Item>
                     <Form.Item name="price" label="Price" rules={[{ required: true }]}>
                         <InputNumber style={{ width: '100%' }} />

@@ -1,40 +1,40 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Prata&family=Great+Vibes&display=swap');
 
 :root {
-  /* Premium Boutique Palette */
+  /* Premium Boutique Palette - Blue Theme */
   --primary-gold: #D4AF37;
   --gold-hover: #B5952F;
-  --royal-maroon: #5D0E41;
-  --maroon-hover: #4A0B34;
+  --royal-maroon: #2596be; /* Renaming variable conceptually to Blue */
+  --maroon-hover: #1e40af;
   --bg-antique: #FCF9F4;
   --bg-white: #FFFFFF;
   --text-main: #2D2A26;
   --text-light: #6B6661;
-  --border-light: rgba(212, 175, 55, 0.15);
+  --border-light: rgba(37, 150, 190, 0.15);
 
   /* Heritage Patterns */
-  --pattern-paisley: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 0C22.386 0 0 22.386 0 50s22.386 50 50 50 50-22.386 50-50S77.614 0 50 0zm0 90c-22.091 0-40-17.909-40-40s17.909-40 40-40 40 17.909 40 40-17.909 40-40 40z' fill='%23D4AF37' fill-opacity='0.03'/%3E%3C/svg%3E");
-  --glow-gold: 0 0 20px rgba(212, 175, 55, 0.2);
+  --pattern-paisley: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 0C22.386 0 0 22.386 0 50s22.386 50 50 50 50-22.386 50-50S77.614 0 50 0zm0 90c-22.091 0-40-17.909-40-40s17.909-40 40-40 40 17.909 40 40-17.909 40-40 40z' fill='%232596be' fill-opacity='0.03'/%3E%3C/svg%3E");
+  --glow-gold: 0 0 20px rgba(37, 150, 190, 0.2);
 
   /* Gradients */
-  --gradient-maroon: linear-gradient(135deg, #5D0E41 0%, #7A1255 100%);
+  --gradient-maroon: linear-gradient(135deg, #2596be 0%, #1e40af 100%);
   --gradient-gold: linear-gradient(135deg, #D4AF37 0%, #F4E4B7 50%, #D4AF37 100%);
   --gradient-soft: linear-gradient(180deg, #FFFFFF 0%, #FCF9F4 100%);
   --gradient-primary: var(--gradient-maroon);
 
   /* Colors */
-  --primary-purple: #5D0E41;
+  --primary-purple: #2596be;
 
   /* Decorative Fonts */
   --font-cursive: 'Great Vibes', cursive;
   --font-decorative: 'Prata', serif;
 
   /* Tinted Panels */
-  --bg-tint: #FFF5ED;
-  --border-gold-soft: rgba(212, 175, 55, 0.1);
+  --bg-tint: #f0f9ff;
+  --border-gold-soft: rgba(37, 150, 190, 0.1);
 
   /* Effects & Layout */
-  --shadow-premium: 0 10px 30px -10px rgba(93, 14, 65, 0.1);
+  --shadow-premium: 0 10px 30px -10px rgba(37, 150, 190, 0.15);
   --shadow-gold: 0 10px 25px -5px rgba(212, 175, 55, 0.2);
   --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   --container-max: 1400px;

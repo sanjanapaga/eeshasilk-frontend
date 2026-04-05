@@ -96,6 +96,11 @@ const CartDrawer = ({ open, onClose }) => {
                                                     Size: <Text strong size="small" style={{ color: 'var(--primary-gold)' }}>{item.size}</Text>
                                                 </Text>
                                             )}
+                                            {item.color && (
+                                                <Text type="secondary" style={{ fontSize: '12px', marginTop: '2px' }}>
+                                                    Color: <Text strong size="small" style={{ color: 'var(--primary-gold)' }}>{item.color}</Text>
+                                                </Text>
+                                            )}
                                         </div>
                                         <div className="quantity-control">
                                             <InputNumber

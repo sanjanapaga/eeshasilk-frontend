@@ -135,7 +135,8 @@ const Checkout = () => {
                                     id: item.id,
                                     quantity: item.quantity,
                                     price: item.price,
-                                    size: item.size
+                                    size: item.size,
+                                    color: item.color
                                 })),
                                 subtotal: totalAmount,
                                 delivery_fee: deliveryFee,
@@ -180,7 +181,8 @@ const Checkout = () => {
                         id: item.id,
                         quantity: item.quantity,
                         price: item.price,
-                        size: item.size
+                        size: item.size,
+                        color: item.color
                     })),
                     subtotal: totalAmount,
                     delivery_fee: deliveryFee,
@@ -357,6 +359,7 @@ const Checkout = () => {
                                                 <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                                                     <Text type="secondary">x {item.quantity}</Text>
                                                     {item.size && <Tag size="small" color="purple">{item.size}</Tag>}
+                                                    {item.color && <Tag size="small" color="orange">{item.color}</Tag>}
                                                 </div>
                                             </div>
                                             <Text strong>₹{(item.price * item.quantity).toLocaleString()}</Text>

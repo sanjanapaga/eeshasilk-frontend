@@ -27,6 +27,7 @@ const ProductDetail = () => {
     const [mainImage, setMainImage] = useState(null);
     const [currentVideo, setCurrentVideo] = useState(null);
     const [selectedSize, setSelectedSize] = useState(null);
+    const [selectedColor, setSelectedColor] = useState(null);
     const [isZoomModalVisible, setIsZoomModalVisible] = useState(false);
     const [isZoomed, setIsZoomed] = useState(false);
     const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
@@ -94,9 +95,15 @@ const ProductDetail = () => {
             message.warning('Please select a size before adding to cart');
             return;
         }
+        if (product.colors && !selectedColor) {
+            message.warning('Please select a color before adding to cart');
+            return;
+        }
         try {
-            await dispatch(addToCartApi({ product, size: selectedSize })).unwrap();
-            message.success(`${product.name}${selectedSize ? ` (${selectedSize})` : ''} added to cart!`);
+            await dispatch(addToCartApi({ product, size: selectedSize, color: selectedColor })).unwrap();
+            const colorText = selectedColor ? ` (${selectedColor})` : '';
+            const sizeText = selectedSize ? ` (${selectedSize})` : '';
+            message.success(`${product.name}${sizeText}${colorText} added to cart!`);
         } catch (error) {
             message.error('Failed to add to cart');
         }
@@ -124,8 +131,12 @@ const ProductDetail = () => {
             message.warning('Please select a size first');
             return;
         }
+        if (product.colors && !selectedColor) {
+            message.warning('Please select a color first');
+            return;
+        }
         try {
-            await dispatch(addToCartApi({ product, size: selectedSize })).unwrap();
+            await dispatch(addToCartApi({ product, size: selectedSize, color: selectedColor })).unwrap();
             navigate('/checkout');
         } catch (error) {
             message.error('Failed to initiate checkout');
@@ -363,6 +374,28 @@ const ProductDetail = () => {
                                                 (No sizes defined yet. Please add them in Admin Panel)
                                             </Text>
                                         )}
+                                    </div>
+                                )}
+
+                                {product.colors && (
+                                    <div className="product-color-selection" style={{ marginBottom: '30px' }}>
+                                        <div style={{ marginBottom: '12px' }}>
+                                            <Text strong style={{ letterSpacing: '1px', fontSize: '12px', color: '#888' }}>SELECT COLOR</Text>
+                                        </div>
+                                        <div className="size-options-grid color-options-grid">
+                                            {product.colors.split(',').map(c => {
+                                                const color = c.trim();
+                                                return (
+                                                    <div
+                                                        key={color}
+                                                        className={`size-option-item ${selectedColor === color ? 'active' : ''}`}
+                                                        onClick={() => setSelectedColor(color)}
+                                                    >
+                                                        {color}
+                                                    </div>
+                                                );
+                                            })}
+                                        </div>
                                     </div>
                                 )}
 
